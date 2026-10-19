@@ -34,7 +34,7 @@
           <article class="panel stat-card">
             <div>
               <div class="stat-label">Total Assets</div>
-              <div class="stat-value">1</div>
+              <div class="stat-value">{{$holidings->count()}}</div>
               <div class="stat-sub">Holding</div>
             </div>
             <div class="stat-icon neutral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/></svg></div>
@@ -51,7 +51,6 @@
         <section class="panel holdings-panel" id="holdings">
           <div class="holdings-header">
             <h2>Your Holdings</h2>
-            <div class="holding-actions"><span>1 Asset</span></div>
           </div>
           <div class="table-responsive">
             <table class="holdings-table">
@@ -65,13 +64,27 @@
                   </tr>
               </thead>
               <tbody id="holdingsBody">
-                <tr data-coin="bitcoin btc">
-                  <td>1</td>
-                  <td><div class="coin-name"><span class="btc-small">T</span><span><strong>USDT</strong><small>USDT</small></span></div></td>
-                  <td>5<small class="muted-small">USDT</small></td>
-                  <td class="positive">+0.5%</td>
-                  <td>5 days</td>
-                </tr>
+                @if($holidings->isNotEmpty())
+                  @php
+                    $j = 1;
+                  @endphp
+                  @foreach($holidings as $holiding)
+                    <tr data-coin="bitcoin btc">
+                      <td>{{$j++}}</td>
+                      <td><div class="coin-name"><span><strong>{{$holiding->coin->name}}</strong></span></div></td>
+                      <td>{{$holiding->amout}}<small class="muted-small">USDT</small></td>
+                      <td class="positive">+0.5%</td>
+                      <td>{{$holiding->times}} days</td>
+                    </tr>
+                  @endforeach
+                @else
+                  <tr>
+                      <td colspan="5" class="text-center">
+                          No data available
+                      </td>
+                  </tr>
+                @endif
+                
               </tbody>
             </table>
             <div id="emptySearch" class="p-4 text-center d-none" style="color:var(--muted)">No matching coins found.</div>

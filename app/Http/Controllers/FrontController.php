@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Amout;
+use App\Models\Holiding;
 use Illuminate\Support\Facades\Auth;
 
 class FrontController extends Controller
@@ -15,9 +16,11 @@ class FrontController extends Controller
 
     public function main() {
         $id = Auth::user()->id;
+
         $user = User::find($id);
-        $amout = Amout::where('user_id',$id)->first();
-        return view('front.main', compact('user','amout'));
+        $amout = Amout::where('user_id', $id)->first();
+        $holidings = Holiding::where('user_id', $id)->get();
+        return view('front.main', compact('user','amout','holidings'));
     }
 
     public function deposit() {

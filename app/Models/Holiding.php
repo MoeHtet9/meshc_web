@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Http\Models\User;
-use App\Http\Models\Coin;
+use App\Models\Coin;
 class Holiding extends Model
 {
     use SoftDeletes;
@@ -19,4 +18,8 @@ class Holiding extends Model
         'amout',
         'times',
     ];
+
+    public function coin(){
+        return $this->belongsTo(Coin::class);
+    }
 }
