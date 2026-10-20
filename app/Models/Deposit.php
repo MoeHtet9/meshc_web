@@ -15,7 +15,7 @@ class Deposit extends Model
     protected $table = 'deposits';
     protected $fillable = [
         'user_id',
-        'coin_id',
+        'payment_ss',
         'amout',
     ];
 }

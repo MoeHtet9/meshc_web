@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Amout;
 use App\Models\Holiding;
+use App\Models\Deposit;
 use Illuminate\Support\Facades\Auth;
 
 class FrontController extends Controller
@@ -25,6 +26,25 @@ class FrontController extends Controller
 
     public function deposit() {
         return view('front.deposit');
+    }
+
+    public function new_deposit(Request $request)
+    {
+        // dd($request);
+        $newDeposit = Deposit::create($request->all());
+
+        // file upload
+        $file_name = time().'.'.$request->payment_ss->extension();//2242143142.jpg
+
+        $upload = $request->payment_ss->move(public_path('images/post/'), $file_name); // folder upload
+
+        if ($upload) {
+            $newDeposit->payment_ss = "/images/post/".$file_name;
+        }
+
+        $newDeposit->save();
+
+        return redirect()->route('history');
     }
 
     public function withdrawal() {

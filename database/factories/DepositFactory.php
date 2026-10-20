@@ -19,7 +19,7 @@ class DepositFactory extends Factory
     {
         return [
             'user_id' => rand(1,10),
-            'coin_id' => rand(1,5),
+            'payment_ss' => fake()->imageUrl(),
             'amout' => rand(5,100),
         ];
     }

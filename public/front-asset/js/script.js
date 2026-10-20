@@ -20,7 +20,7 @@ $(document).ready(function () {
     const $feedback = $('.formFeedback');
 
     function checkForm() {
-        const amount = $('input[name="deposit_amount"]:checked').length > 0;
+        const amount = $('input[name="amout"]:checked').length > 0;
 
         const screenshotInput = $('.paymentScreenshot')[0];
 
@@ -36,7 +36,7 @@ $(document).ready(function () {
     }
 
     // Amount ရွေးတဲ့အခါ
-    $('input[name="deposit_amount"]').on('change', function () {
+    $('input[name="amout"]').on('change', function () {
         $feedback.text('');
         checkForm();
     });

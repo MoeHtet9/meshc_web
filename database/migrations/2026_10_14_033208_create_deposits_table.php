@@ -18,11 +18,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
-            $table->unsignedBigInteger('coin_id');
-            $table->foreign('coin_id')
-                ->references('id')
-                ->on('coins')
-                ->onDelete('cascade');
+            $table->string('payment_ss');
             $table->text('amout');
             $table->softDeletes();
             $table->timestamps();
