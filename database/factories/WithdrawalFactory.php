@@ -19,7 +19,6 @@ class WithdrawalFactory extends Factory
     {
         return [
             'user_id' => rand(1,10),
-            'coin_id' => rand(1,5),
             'amout' => rand(5,100),
             'address' => fake()->word(),
         ];

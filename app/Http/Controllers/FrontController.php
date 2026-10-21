@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Amout;
 use App\Models\Holiding;
 use App\Models\Deposit;
+use App\Models\Withdrawal;
 use Illuminate\Support\Facades\Auth;
 
 class FrontController extends Controller
@@ -24,6 +25,7 @@ class FrontController extends Controller
         return view('front.main', compact('user','amout','holidings'));
     }
 
+    // DEPOSIT
     public function deposit() {
         return view('front.deposit');
     }
@@ -47,9 +49,22 @@ class FrontController extends Controller
         return redirect()->route('history');
     }
 
+    // WITHDRAWAL
     public function withdrawal() {
         $amout = Amout::where('user_id', Auth::user()->id)->first();
         return view('front.withdrawal', compact('amout'));
+    }
+
+    public function new_withdrawal(Request $request) {
+        // dd('REQUEST ရောက်ပြီ', $request->all());
+        $user = Auth::user();
+        Withdrawal::create([
+            'user_id' => $user->id,
+            'address' => $request->address,
+            'amout' => $request->amout,
+        ]);
+
+        return redirect()->route('history');
     }
 
     public function holiding() {

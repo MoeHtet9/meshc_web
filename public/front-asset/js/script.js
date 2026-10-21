@@ -15,7 +15,7 @@ $(document).ready(function () {
     $(this).text(isPassword ? "◉" : "◎").attr("aria-label", isPassword ? "Hide password" : "Show password");
   });
 
-    const $form = $('.depositForm');
+    const $form = $('.depositForm').not('#withdrawalForm');
     const $button = $('.continueButton');
     const $feedback = $('.formFeedback');
 
@@ -156,4 +156,56 @@ $(document).ready(function () {
     });
 
     renderPagination();
+
+    // WITHDRAWAL
+    const $withdrawalForm = $('#withdrawalForm');
+
+    if ($withdrawalForm.length) {
+        const $amount = $('#amount');
+        const $address = $('#withdrawalAddress');
+        const $feedback = $('#formFeedback');
+        const $button = $withdrawalForm.find('button[type="submit"]');
+
+        const balance = Number($('#balance').text().trim());
+        const minimum = 1.05;
+
+        function validateWithdrawal() {
+            const value = $amount.val();
+            const amount = Number(value);
+            const address = $address.val().trim();
+
+            if (!address) {
+                $feedback.text('Please enter your wallet address.')
+                        .css('color', 'red');
+                return false;
+            }
+
+            if (value === '' || !Number.isFinite(amount) || amount < minimum) {
+                $feedback.text('Minimum withdrawal is 1.05 USDT.')
+                        .css('color', 'red');
+                return false;
+            }
+
+            if (!Number.isFinite(balance) || amount > balance) {
+                $feedback.text('Insufficient balance!')
+                        .css('color', 'red');
+                return false;
+            }
+
+            $feedback.text('');
+            return true;
+        }
+
+        $amount.add($address).on('input', validateWithdrawal);
+
+        $withdrawalForm.on('submit', function (event) {
+            if (!validateWithdrawal()) {
+                event.preventDefault();
+                return;
+            }
+
+            $button.prop('disabled', true);
+            $button.find('span').text('Submitting...');
+        });
+    }
 });

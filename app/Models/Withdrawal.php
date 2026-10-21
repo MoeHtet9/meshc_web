@@ -15,7 +15,6 @@ class Withdrawal extends Model
     protected $table = 'withdrawals';
     protected $fillable = [
         'user_id',
-        'coin_id',
         'amout',
         'address',
     ];

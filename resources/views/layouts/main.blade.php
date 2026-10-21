@@ -1,3 +1,4 @@
+@if(isset(Auth::user()->id))
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -116,3 +117,8 @@
   <script src="{{asset('front-asset/js/script.js')}}"></script>
 </body>
 </html>
+@else
+  <script>
+      window.location.href = "{{ url('/') }}";
+  </script>
+@endif
