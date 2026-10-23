@@ -1737,7 +1737,7 @@ h1 {
 .filters-row {
   display: flex;
   align-items: center;
-  gap: 21px;
+  justify-content: space-between;
   margin-bottom: 22px;
 }
 

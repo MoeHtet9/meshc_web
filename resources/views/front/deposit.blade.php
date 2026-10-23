@@ -54,8 +54,6 @@
               <div class="input-group">
                 <input required name="payment_ss" type="file" class="form-control bg-dark text-light paymentScreenshot" aria-describedby="inputGroupFileAddon04" aria-label="Upload" accept="image/*" id="image">
               </div>
-              <!-- USER ID -->
-              <input type="hidden" name="user_id" id="user_id" value="{{Auth::user()->id}}">
             </div>
             <div class="form-feedback" id="formFeedback" role="status" aria-live="polite"></div>
             <button type="submit" class="continue-button continueButton" disabled><span>Deposit</span><svg viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>

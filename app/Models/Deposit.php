@@ -17,5 +17,6 @@ class Deposit extends Model
         'user_id',
         'payment_ss',
         'amout',
+        'status',
     ];
 }

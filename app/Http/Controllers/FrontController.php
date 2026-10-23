@@ -17,62 +17,119 @@ class FrontController extends Controller
     }
 
     public function main() {
-        $id = Auth::user()->id;
+        if(isset(Auth::user()->id)){
+            $id = Auth::user()->id;
 
-        $user = User::find($id);
-        $amout = Amout::where('user_id', $id)->first();
-        $holidings = Holiding::where('user_id', $id)->get();
-        return view('front.main', compact('user','amout','holidings'));
+            $user = User::find($id);
+            $amout = Amout::where('user_id', $id)->first();
+            $holidings = Holiding::where('user_id', $id)->get();
+            return view('front.main', compact('user','amout','holidings'));
+        }else{
+            return redirect()->route('login');
+        }
     }
 
     // DEPOSIT
     public function deposit() {
-        return view('front.deposit');
+        if(isset(Auth::user()->id)){
+            return view('front.deposit');
+        }else{
+            return redirect()->route('login');
+        }
     }
 
     public function new_deposit(Request $request)
     {
-        // dd($request);
-        $newDeposit = Deposit::create($request->all());
+        if(isset(Auth::user()->id)){
+            // dd($request);
+            $user = Auth::user();
+            Deposit::create([
+                'user_id' => $user->id,
+                'amout' => $request->amout,
+                'payment_ss' => $request->payment_ss,
+                'status' => 'Pending',
+            ]);
 
-        // file upload
-        $file_name = time().'.'.$request->payment_ss->extension();//2242143142.jpg
+            // file upload
+            $file_name = time().'.'.$request->payment_ss->extension();//2242143142.jpg
 
-        $upload = $request->payment_ss->move(public_path('images/post/'), $file_name); // folder upload
+            $upload = $request->payment_ss->move(public_path('images/post/'), $file_name); // folder upload
 
-        if ($upload) {
-            $newDeposit->payment_ss = "/images/post/".$file_name;
+            if ($upload) {
+                $request->payment_ss = "/images/post/".$file_name;
+            }
+
+            return redirect()->route('history');
+        }else{
+            return redirect()->route('login');
         }
-
-        $newDeposit->save();
-
-        return redirect()->route('history');
     }
 
     // WITHDRAWAL
     public function withdrawal() {
-        $amout = Amout::where('user_id', Auth::user()->id)->first();
-        return view('front.withdrawal', compact('amout'));
+        if(isset(Auth::user()->id)){
+            $amout = Amout::where('user_id', Auth::user()->id)->first();
+            return view('front.withdrawal', compact('amout'));
+        }else{
+            return redirect()->route('login');
+        }
     }
 
     public function new_withdrawal(Request $request) {
-        // dd('REQUEST ရောက်ပြီ', $request->all());
-        $user = Auth::user();
-        Withdrawal::create([
-            'user_id' => $user->id,
-            'address' => $request->address,
-            'amout' => $request->amout,
-        ]);
+        if(isset(Auth::user()->id)){
+            // dd('REQUEST ရောက်ပြီ', $request->all());
+            $user = Auth::user();
+            Withdrawal::create([
+                'user_id' => $user->id,
+                'address' => $request->address,
+                'amout' => $request->amout,
+                'status' => 'Pending',
+            ]);
 
-        return redirect()->route('history');
+            return redirect()->route('history');
+        }else{
+            return redirect()->route('login');
+        }
     }
 
     public function holiding() {
-        $amout = Amout::where('user_id', Auth::user()->id)->first();
-        return view('front.holiding', compact('amout'));
+        if(isset(Auth::user()->id)){
+            $amout = Amout::where('user_id', Auth::user()->id)->first();
+            return view('front.holiding', compact('amout'));
+        }else{
+            return redirect()->route('login');
+        }
     }
 
+    // HISTORY
     public function history() {
-        return view('front.history');
+        if(isset(Auth::user()->id)){
+            $user_id = Auth::user()->id;
+            $deposit_times = Deposit::where('user_id', $user_id)->count();
+            $withdrawal_times = Withdrawal::where('user_id', $user_id)->count();
+
+            $deposits = Deposit::where('user_id', $user_id)->orderBy('created_at','DESC')->get();
+            $deposit_amount = 0;
+            foreach($deposits as $deposit){
+                $deposit_amount += $deposit->amout;
+            }
+
+            $withdrawals = Withdrawal::where('user_id', $user_id)->orderBy('created_at','DESC')->get();
+            $withdrawal_amount = 0;
+            foreach($withdrawals as $withdrawal){
+                $withdrawal_amount += $withdrawal->amout;
+            }
+
+            return view('front.history', compact(
+                'deposit_amount',
+                'withdrawal_amount',
+                'deposit_times',
+                'withdrawal_times',
+                'deposits',
+                'withdrawals',
+                ));
+        }else{
+            return redirect()->route('login');
+        }
     }
 }

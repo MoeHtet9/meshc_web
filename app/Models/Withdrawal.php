@@ -17,5 +17,6 @@ class Withdrawal extends Model
         'user_id',
         'amout',
         'address',
+        'status',
     ];
 }

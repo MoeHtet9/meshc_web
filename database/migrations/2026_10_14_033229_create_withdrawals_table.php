@@ -20,6 +20,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->text('amout');
             $table->string('address');
+            $table->text('status');
             $table->softDeletes();
             $table->timestamps();
         });
