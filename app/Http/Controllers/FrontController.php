@@ -29,6 +29,15 @@ class FrontController extends Controller
         }
     }
 
+    public function claim($id, $user_id, $amount) {
+        $holiding = Holiding::find($id);
+        $holiding->delete();
+
+        Amout::where('user_id', $user_id)->update(['amout' => $amount]);
+
+        return redirect()->route('main');
+    }
+
     // DEPOSIT
     public function deposit() {
         if(isset(Auth::user()->id)){
@@ -38,8 +47,7 @@ class FrontController extends Controller
         }
     }
 
-    public function new_deposit(Request $request)
-    {
+    public function new_deposit(Request $request) {
         if(isset(Auth::user()->id)){
             // dd($request);
             $user = Auth::user();
@@ -92,10 +100,32 @@ class FrontController extends Controller
         }
     }
 
+    // HOLIDING
     public function holiding() {
         if(isset(Auth::user()->id)){
             $amout = Amout::where('user_id', Auth::user()->id)->first();
             return view('front.holiding', compact('amout'));
+        }else{
+            return redirect()->route('login');
+        }
+    }
+
+    public function new_holiding(Request $request) {
+        if(isset(Auth::user()->id)){
+            // dd('REQUEST ရောက်ပြီ', $request->all());
+            $user = Auth::user();
+            Holiding::create([
+                'user_id' => $user->id,
+                'coin_id' => 1,
+                'amout' => $request->amout,
+                'times' => $request->times,
+            ]);
+
+            $firstBalance = Amout::where('user_id', $user->id)->first();
+            $balance = $firstBalance->amout - $request->amout ;
+            Amout::where('user_id', $user->id)->update(['amout' => $balance]);
+
+            return redirect()->route('main');
         }else{
             return redirect()->route('login');
         }

@@ -208,4 +208,142 @@ $(document).ready(function () {
             $button.find('span').text('Submitting...');
         });
     }
+    // HOLDING TIMES ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    const $form2 = $('#holdingForm');
+    const $amount = $('#amount');
+    const $balance = $('#availableBalance');
+    const $totalValue = $('#totalValue');
+    const $dailyProfit = $('#dailyProfit');
+    const $periodProfit = $('#periodProfit');
+    const $feedback2 = $('#formFeedback');
+    const $submitButton = $form2.find('button[type="submit"]');
+
+    const dailyRate = 0.005; // 0.5% per day
+
+    const availableBalance = Number($balance.text().trim()) || 0;
+
+    function calculateHolding() {
+        const value = $amount.val();
+        const amount = Number(value);
+
+        const selectedDays = Number(
+            $('input[name="times"]:checked').val()
+        );
+
+        // Default values
+        $totalValue.val('0.00');
+        $dailyProfit.val('0.00');
+        $periodProfit.val('0.00');
+
+        if (value === '') {
+            $feedback2.text('');
+            $submitButton.prop('disabled', false);
+            return true;
+        }
+
+        if (
+            !Number.isFinite(amount) ||
+            amount <= 0 ||
+            ![5, 10, 15, 30].includes(selectedDays)
+        ) {
+            $feedback2
+                .text('Please enter a valid amount and select holding days.')
+                .css('color', 'red');
+
+            $submitButton.prop('disabled', true);
+            return false;
+        }
+
+        if (amount > availableBalance) {
+            $feedback2
+                .text(
+                    'Insufficient balance! Available: ' +
+                    availableBalance.toFixed(5) + ' USDT'
+                )
+                .css('color', 'red');
+
+            $submitButton.prop('disabled', true);
+            return false;
+        }
+
+        // 0.5% daily profit
+        const dailyProfit = amount * dailyRate;
+
+        // Profit for the selected holding period
+        const totalProfit = dailyProfit * selectedDays;
+
+        // Original amount + total profit
+        const totalValue = amount + totalProfit;
+
+        $dailyProfit.val(dailyProfit.toFixed(5));
+        $periodProfit.val(totalProfit.toFixed(5));
+        $totalValue.val(totalValue.toFixed(5));
+
+        $feedback2.text('');
+        $submitButton.prop('disabled', false);
+
+        return true;
+    }
+
+    // Amount changes
+    $amount.on('input', calculateHolding);
+
+    // Holding period changes
+    $('input[name="times"]').on('change', calculateHolding);
+
+    // Validate before submit
+    $form2.on('submit', function (event) {
+        if (!calculateHolding()) {
+            event.preventDefault();
+        }
+    });
+
+    calculateHolding();
+
+    // updateLockCountdowns
+    function updateLockCountdowns() {
+        document.querySelectorAll('.lock-countdown').forEach(function (element) {
+            const unlockAt = Number(element.dataset.unlockAt) * 1000;
+            const remaining = unlockAt - Date.now();
+
+            const row = element.closest('tr');
+            const claimContainer = row
+                ? row.querySelector('.claim')
+                : null;
+
+            if (!claimContainer || !Number.isFinite(unlockAt)) {
+                return;
+            }
+
+            if (remaining <= 0) {
+                element.textContent = '';
+
+                if (!claimContainer.querySelector('a')) {
+                    const link = document.createElement('a');
+
+                    link.href = element.dataset.claimUrl;
+                    link.className = 'btn btn-sm btn-outline-success';
+                    link.textContent = 'Claim';
+
+                    claimContainer.appendChild(link);
+                }
+
+                return;
+            }
+
+            // Lock မပြည့်သေးရင် Claim ခလုတ်မပြပါ
+            claimContainer.replaceChildren();
+
+            const days = Math.floor(remaining / 86400000);
+            const hours = Math.floor((remaining % 86400000) / 3600000);
+            const minutes = Math.floor((remaining % 3600000) / 60000);
+            const seconds = Math.floor((remaining % 60000) / 1000);
+
+            element.textContent =
+                `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        });
+    }
+
+    updateLockCountdowns();
+    setInterval(updateLockCountdowns, 1000);
 });

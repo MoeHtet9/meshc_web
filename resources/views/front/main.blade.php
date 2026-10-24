@@ -74,7 +74,23 @@
                       <td><div class="coin-name"><span><strong>{{$holiding->coin->name}}</strong></span></div></td>
                       <td>{{$holiding->amout}}<small class="muted-small">USDT</small></td>
                       <td class="positive">+0.5%</td>
-                      <td>{{$holiding->times}} days</td>
+                      @php
+                          $profit = 0.005 * $holiding->amout * $holiding->times;
+
+                          $totalAmount = $profit
+                              + $holiding->amout
+                              + ($amout->amout ?? 0);
+                      @endphp
+                      <td>
+                          <span
+                              class="lock-countdown"
+                              data-unlock-at="{{ $holiding->created_at->copy()->addDays((int) $holiding->times)->timestamp }}"
+                              data-claim-url="{{ route('claim', ['id' => $holiding->id, 'user_id' => $holiding->user_id, 'amount' => $totalAmount]) }}">
+                              Calculating...
+                          </span>
+
+                          <div class="claim"></div>
+                      </td>
                     </tr>
                   @endforeach
                 @else
