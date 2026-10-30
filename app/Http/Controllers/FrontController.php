@@ -9,6 +9,7 @@ use App\Models\Holiding;
 use App\Models\Deposit;
 use App\Models\Withdrawal;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class FrontController extends Controller
 {
@@ -17,25 +18,43 @@ class FrontController extends Controller
     }
 
     public function main() {
-        if(isset(Auth::user()->id)){
-            $id = Auth::user()->id;
 
+        if (Auth::check()) {
+            $id = Auth::id();
             $user = User::find($id);
+
+            DB::transaction(function () use ($id) {
+                $holidings = Holiding::where('user_id', $id)->get();
+
+                foreach ($holidings as $holiding) {
+                    $unlockAt = $holiding->created_at
+                        ->copy()
+                        ->addDays((int) $holiding->times)
+                        ->timestamp * 1000;
+
+                    $remaining = $unlockAt - (microtime(true) * 1000);
+
+                    if ($remaining <= 0) {
+                        $amout = Amout::where('user_id', $id)->lockForUpdate()->first();
+                        $profit = 0.005 * $holiding->amout * $holiding->times;
+                        $totalAmount = $profit + $holiding->amout + ($amout->amout ?? 0);
+
+                        if ($amout) {
+                            $amout->update(['amout' => $totalAmount]);
+                        }
+
+                        $holiding->delete();
+                    }
+                }
+            });
+
             $amout = Amout::where('user_id', $id)->first();
             $holidings = Holiding::where('user_id', $id)->get();
-            return view('front.main', compact('user','amout','holidings'));
-        }else{
-            return redirect()->route('login');
+
+            return view('front.main', compact('user', 'amout', 'holidings'));
         }
-    }
 
-    public function claim($id, $user_id, $amount) {
-        $holiding = Holiding::find($id);
-        $holiding->delete();
-
-        Amout::where('user_id', $user_id)->update(['amout' => $amount]);
-
-        return redirect()->route('main');
+        return redirect()->route('login');
     }
 
     // DEPOSIT
@@ -51,6 +70,12 @@ class FrontController extends Controller
         if(isset(Auth::user()->id)){
             // dd($request);
             $user = Auth::user();
+
+            $request->validate([
+                'amout' => 'required|numeric|gt:0',
+                'payment_ss' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+            ]);
+
             Deposit::create([
                 'user_id' => $user->id,
                 'amout' => $request->amout,

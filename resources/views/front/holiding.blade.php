@@ -39,7 +39,7 @@
 
               <div class="col-md-6 field-group">
                 <label for="amount">Amount <span class="required">*</span></label>
-                <div class="input-shell mb-2"><i class="bi bi-stack field-icon"></i><input name="amout" id="amount" class="form-control custom-control" type="number" min="1" step="any" placeholder="Enter amount" required></div>
+                <div class="input-shell mb-2"><i class="bi bi-stack field-icon"></i><input name="amout" id="amount" autofocus class="form-control custom-control" type="number" min="1" placeholder="Enter amount" required></div>
                 <h6>
                     <span class="text-secondary">Available Balance:</span>
                     <span class="text-success">
@@ -73,7 +73,7 @@
             </div>
 
             <div class="form-footer">
-              <p class="form-feedback" id="formFeedback" role="status"></p>
+              <p class="form-feedback" id="formFeedback2" role="status"></p>
               <div class="action-buttons">
                 <a href="{{route('main')}}" class="btn btn-outline-danger btn-sm">Cancel</a>
                 <button type="submit" class="btn btn-sm btn-info"><i class="bi bi-plus-circle-fill"></i> Add Holding</button>

@@ -215,7 +215,7 @@ $(document).ready(function () {
     const $totalValue = $('#totalValue');
     const $dailyProfit = $('#dailyProfit');
     const $periodProfit = $('#periodProfit');
-    const $feedback2 = $('#formFeedback');
+    const $feedback2 = $('#formFeedback2');
     const $submitButton = $form2.find('button[type="submit"]');
 
     const dailyRate = 0.005; // 0.5% per day
@@ -316,18 +316,6 @@ $(document).ready(function () {
             }
 
             if (remaining <= 0) {
-                element.textContent = '';
-
-                if (!claimContainer.querySelector('a')) {
-                    const link = document.createElement('a');
-
-                    link.href = element.dataset.claimUrl;
-                    link.className = 'btn btn-sm btn-outline-success';
-                    link.textContent = 'Claim';
-
-                    claimContainer.appendChild(link);
-                }
-
                 return;
             }
 

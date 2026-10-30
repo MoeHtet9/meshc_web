@@ -11,7 +11,7 @@
                 <p>Wallet Address</p>
               </div>
               <div class="input-group flex-nowrap">
-                <input name="address" id="withdrawalAddress" type="text" class="form-control bg-dark text-light" aria-label="Username" aria-describedby="addon-wrapping" required>
+                <input name="address" autofocus id="withdrawalAddress" type="text" class="form-control bg-dark text-light" aria-label="Username" aria-describedby="addon-wrapping" required>
               </div>
               <div class="section-heading">
                 <p>Withdrawal Amount</p>

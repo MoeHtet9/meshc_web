@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\FrontController::class,'signin'])->name('signin');
 Route::get('/main', [App\Http\Controllers\FrontController::class,'main'])->name('main');
-Route::get('/claim/{id}/{user_id}/{amount}', [App\Http\Controllers\FrontController::class,'claim'])->name('claim');
 
 // DEPOSIT
 Route::get('/deposit', [App\Http\Controllers\FrontController::class,'deposit'])->name('deposit');

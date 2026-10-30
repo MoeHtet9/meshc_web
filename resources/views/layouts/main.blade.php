@@ -100,10 +100,8 @@
         <svg class="brand-mark" viewBox="0 0 48 38" fill="none" aria-hidden="true"><path d="M5 7L15 25L20 16L13 3L5 7Z" fill="#7867FF"/><path d="M22 16L30 3L39 5L29 24L22 16Z" fill="#9B83FF"/><path d="M4 30L16 20L21 28L10 36L4 30Z" fill="#6D5CFA"/><path d="M27 28L38 15L43 20L34 35L27 28Z" fill="#8B79FF"/></svg>
         <div><strong>MESH</strong> <span>Crypto</span></div>
       </a>
-      <nav class="footer-links" aria-label="Footer navigation">
-        <a href="#dashboard">Home</a><a href="#privacy" data-toast="Privacy page will be connected soon.">Privacy</a></nav>
       <div class="socials" aria-label="Social links">
-        <a href="#telegram" aria-label="Telegram" data-toast="Add your Telegram URL here.">➤</a>
+        <a href="https://t.me/MoeHtetr" target="_blank">Telegram ➤</a>
       </div>
       <div class="footer-note">Built for a better crypto experience. <span class="online-dot"></span></div>
     </footer>

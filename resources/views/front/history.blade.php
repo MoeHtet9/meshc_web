@@ -99,10 +99,9 @@
 
                   </table>
 
-                  <div class="empty-state" id="emptyState" style="display: none;">
+                  <div class="empty-state container-fulid text-center mt-5" id="emptyState" style="display: none;">
                       <i class="bi bi-search"></i>
                       <strong>No transactions found</strong>
-                      <span>Try changing your filters or search terms.</span>
                   </div>
               </div>
             </div>
@@ -139,12 +138,6 @@
                         @endforeach
                     </tbody>
                 </table>
-
-                <div class="empty-state" id="emptyState" style="display: none;">
-                    <i class="bi bi-search"></i>
-                    <strong>No transactions found</strong>
-                    <span>Try changing your filters or search terms.</span>
-                </div>
               </div>
             </div>
           </div>
