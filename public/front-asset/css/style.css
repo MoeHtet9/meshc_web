@@ -314,6 +314,15 @@
       .footer-links a:first-child { border-left: 0; padding-left: 0; }
       .socials { margin-left: 0; gap: 14px; }
       .footer-note { margin-left: auto; padding-left: 12px; font-size: 10px; }
+
+      
+      #d-total {
+        display: none;
+      }
+
+      #w-total{
+        display: none;
+      }
     }
 
 /* DEPOSIT CSS ################################################################################################## */
@@ -2325,6 +2334,11 @@ h1 {
     }
 }
 @media(max-width:560px) {
+    .history-art,
+    #holding,
+    #change{
+        display: none;
+    }
     .topbar {
         padding:0 13px;
         gap:9px

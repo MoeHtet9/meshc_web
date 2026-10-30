@@ -29,9 +29,8 @@
                 <span class="stat-change">USDT</span>
               </div>
             </div>
-            <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m3 17 6-6 4 4 8-9"/><path d="M15 6h6v6"/></svg></div>
           </article>
-          <article class="panel stat-card">
+          <article class="panel stat-card" id="holding">
             <div>
               <div class="stat-label">Total Assets</div>
               <div class="stat-value">{{$holidings->count()}}</div>
@@ -39,7 +38,7 @@
             </div>
             <div class="stat-icon neutral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/></svg></div>
           </article>
-          <article class="panel stat-card">
+          <article class="panel stat-card" id="change">
             <div>
               <div class="stat-label">24h Change</div>
               <div class="stat-value positive">+0.5%</div>

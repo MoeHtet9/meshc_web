@@ -31,7 +31,7 @@
             </div>
             <span class="stat-icon"><i class="bi bi-layers"></i></span>
           </article>
-          <article class="stat-card">
+          <article class="stat-card" id="d-total">
             <div class="stat-copy">
               <span class="stat-label">Total Deposit</span>
               <strong class="stat-number positive">{{$deposit_amount}} <small>USDT</small></strong>
@@ -39,7 +39,7 @@
             </div>
             <span class="stat-icon green"><i class="bi bi-download"></i></span>
           </article>
-          <article class="stat-card">
+          <article class="stat-card" id="w-total">
             <div class="stat-copy">
               <span class="stat-label">Total Withdrawal</span>
               <strong class="stat-number negative"><span class="text-danger">{{$withdrawal_amount}} </span> <small class="text-danger">USDT</small></strong>
