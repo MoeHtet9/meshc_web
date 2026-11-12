@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -26,3 +27,17 @@ Route::get('/history', [App\Http\Controllers\FrontController::class,'history'])-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
+
+//ADMIN
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
+    Route::get('/', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/user', [App\Http\Controllers\AdminController::class, 'user'])->name('user');
+    Route::get('/transaction', [App\Http\Controllers\AdminController::class, 'transaction'])->name('transaction');
+    Route::get('/deposit_comp/{id}/{user_id}', [App\Http\Controllers\AdminController::class, 'deposit_comp'])->name('deposit.comp');
+    Route::get('/deposit_fail/{id}/{user_id}', [App\Http\Controllers\AdminController::class, 'deposit_fail'])->name('deposit.fail');
+    Route::get('/withdrawal_comp/{id}/{user_id}', [App\Http\Controllers\AdminController::class, 'withdrawal_comp'])->name('withdrawal.comp');
+    Route::get('/withdrawal_fail/{id}/{user_id}', [App\Http\Controllers\AdminController::class, 'withdrawal_fail'])->name('withdrawal.fail');
+});
+
+// Verify OTP
+Route::post('/verify-otp', [LoginController::class, 'verifyOtp'])->name('otp.verify');

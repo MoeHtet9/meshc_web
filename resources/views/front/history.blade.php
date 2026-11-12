@@ -89,8 +89,10 @@
                                 <td>
                                   @if($deposit->status == 'Pending')
                                     <span class="type-badge buy">Pending</span>
-                                  @else
+                                  @elseif($deposit->status == 'completed')
                                     <span class="status-badge">Completed</span>
+                                  @else
+                                    <span class="type-badge sell">Failed</span>
                                   @endif
                                 </td>
                             </tr>
@@ -123,17 +125,19 @@
                           $j = 1;
                         @endphp
                         @foreach($withdrawals as $withdrawal)
-                          <tr data-date="2026-10-18" data-type="Deposit" data-coin="USDT" data-search="deposit usdt completed 500">
+                          <tr data-date="2026-10-18" data-type="Withdrawal" data-coin="USDT" data-search="withdrawal usdt completed 500">
                               <td>{{$j++}}</td>
                               <td>{{$withdrawal->created_at}}</td>
                               <td class="text-danger amount">-{{$withdrawal->amout}}</td>
                               <td>
-                                @if($withdrawal->status == 'Pending')
-                                  <span class="type-badge buy">Pending</span>
-                                @else
-                                  <span class="status-badge">Completed</span>
-                                @endif
-                              </td>
+                                  @if($withdrawal->status == 'Pending')
+                                    <span class="type-badge buy">Pending</span>
+                                  @elseif($withdrawal->status == 'completed')
+                                    <span class="status-badge">Completed</span>
+                                  @else
+                                    <span class="type-badge sell">Failed</span>
+                                  @endif
+                                </td>
                           </tr>
                         @endforeach
                     </tbody>

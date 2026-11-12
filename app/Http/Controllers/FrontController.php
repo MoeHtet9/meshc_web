@@ -76,21 +76,21 @@ class FrontController extends Controller
                 'payment_ss' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
             ]);
 
-            Deposit::create([
-                'user_id' => $user->id,
-                'amout' => $request->amout,
-                'payment_ss' => $request->payment_ss,
-                'status' => 'Pending',
-            ]);
-
             // file upload
             $file_name = time().'.'.$request->payment_ss->extension();//2242143142.jpg
 
-            $upload = $request->payment_ss->move(public_path('images/post/'), $file_name); // folder upload
+            $upload = $request->payment_ss->move(public_path('images/payment_ss/'), $file_name); // folder upload
 
             if ($upload) {
-                $request->payment_ss = "/images/post/".$file_name;
+                $request->payment_ss = "/images/payment_ss/".$file_name;
             }
+
+            Deposit::create([
+                'user_id' => $user->id,
+                'amout' => $request->amout,
+                'payment_ss' => '/images/payment_ss/'.$file_name,
+                'status' => 'Pending',
+            ]);
 
             return redirect()->route('history');
         }else{
@@ -118,6 +118,10 @@ class FrontController extends Controller
                 'amout' => $request->amout,
                 'status' => 'Pending',
             ]);
+
+            $amout = Amout::where('user_id', $user->id)->first();
+            $upd_amout = $amout->amout - $request->amout;
+            Amout::where('user_id', $user->id)->update(['amout' => $upd_amout]);
 
             return redirect()->route('history');
         }else{

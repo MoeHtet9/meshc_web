@@ -1,4 +1,4 @@
-@if(isset(Auth::user()->id))
+@if(Auth::user() && Auth::user()->role === 'user')
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -115,6 +115,10 @@
   <script src="{{asset('front-asset/js/script.js')}}"></script>
 </body>
 </html>
+@elseif(Auth::user() && Auth::user()->role === 'admin')
+  <script>
+      window.location.href = "{{ url('/admin') }}";
+  </script>
 @else
   <script>
       window.location.href = "{{ url('/') }}";

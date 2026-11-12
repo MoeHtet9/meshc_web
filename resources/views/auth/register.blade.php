@@ -83,9 +83,6 @@
               <button class="confirm-password-toggle" type="button" aria-label="Show password">◎</button>
             </label>
 
-            <!-- ROLE_ID -->
-            <input type="hidden" name="role_id" id="role_id" value="1">
-
             <div class="form-message mb-5" role="status" aria-live="polite"></div>
             <button class="btn submit-btn" type="submit"><span id="submit-label">{{ __('Create Account') }}</span><span class="arrow">→</span></button>
           </form>

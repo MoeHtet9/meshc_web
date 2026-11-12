@@ -11,7 +11,7 @@
             @csrf
             <label class="field">
               <span class="field-icon" aria-hidden="true">✉</span>
-              <input id="email" type="email" autocomplete="email" placeholder="Email address" required name="email" class="form-control" autofocus>
+              <input id="email" type="email" autocomplete="email" placeholder="Email address" required name="email" class="form-control" autofocus value="{{ old('email') }}">
               @error('email')
                   <span class="invalid-feedback" role="alert">
                       <strong>{{ $message }}</strong>
@@ -20,7 +20,7 @@
             </label>
             <label class="field">
               <span class="field-icon lock-icon" aria-hidden="true">♙</span>
-              <input id="password" type="password" autocomplete="current-password" placeholder="Password" minlength="6" required name="password" class="form-control">
+              <input id="password" type="password" autocomplete="current-password" placeholder="Password" minlength="6" required name="password" class="form-control" value="{{ old('password') }}">
               <button class="password-toggle" type="button" aria-label="Show password">◎</button>
             </label>
             @error('password')

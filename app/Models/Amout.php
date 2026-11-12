@@ -14,5 +14,6 @@ class Amout extends Model
     protected $table = 'amouts';
     protected $fillable = [
         'amout',
+        'user_id',
     ];
 }
