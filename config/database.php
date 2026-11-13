@@ -18,7 +18,6 @@ return [
     */
 
     'default' => env('DB_CONNECTION', 'sqlite'),
-    'url' => env('DB_URL', env('DATABASE_URL')),
 
     /*
     |--------------------------------------------------------------------------
