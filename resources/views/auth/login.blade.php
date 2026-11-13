@@ -22,15 +22,14 @@
               <span class="field-icon lock-icon" aria-hidden="true">♙</span>
               <input id="password" type="password" autocomplete="current-password" placeholder="Password" minlength="6" required name="password" class="form-control" value="{{ old('password') }}">
               <button class="password-toggle" type="button" aria-label="Show password">◎</button>
-            </label>
-            @error('password')
-                  <span class="invalid-feedback" role="alert">
-                      <strong>{{ $message }}</strong>
-                  </span>
+              @error('password')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
               @enderror
+            </label>
             <div class="form-options" id="login-options">
-              <label class="remember"><input type="checkbox" checked><span class="custom-check">✓</span> Remember me</label>
-              <a href="#forgot" id="forgot-link">Forgot password?</a>
+              <a href="{{ route('forgot') }}" id="forgot-link">Forgot password?</a>
             </div>
             <div class="form-message" role="status" aria-live="polite"></div>
             <button class="btn submit-btn" type="submit"><span id="submit-label">{{ __('Login') }}</span><span class="arrow">→</span></button>

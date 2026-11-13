@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Deposit;
 use App\Models\Withdrawal;
+use App\Models\Amout;
 
 class User extends Authenticatable
 {
@@ -56,5 +57,9 @@ class User extends Authenticatable
 
     public function withdrawal(){
         return $this->hasMany(Withdrawal::class);
+    }
+
+    public function amount(){
+        return $this->hasOne(Amout::class);
     }
 }

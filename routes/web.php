@@ -41,3 +41,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
 
 // Verify OTP
 Route::post('/verify-otp', [LoginController::class, 'verifyOtp'])->name('otp.verify');
+
+// Forgot Password
+Route::get('/forgot', [App\Http\Controllers\ForgotController::class, 'forgot'])->name('forgot');
+Route::post('/forgot', [App\Http\Controllers\ForgotController::class, 'sendOtp'])->name('forgot.sendOtp');
+Route::post('/forgot/verify-otp', [App\Http\Controllers\ForgotController::class, 'verifyOtp'])->name('forgot.verifyOtp');
+Route::post('/forgot/reset-password', [App\Http\Controllers\ForgotController::class, 'resetPassword'])->name('forgot.resetPassword');

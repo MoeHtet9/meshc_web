@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\DB;
 class FrontController extends Controller
 {
     public function signin() {
+        if(Auth::check()) {
+            if(Auth::user()->role == 'admin') {
+                return redirect()->route('admin.dashboard');
+            } else {
+                return redirect()->route('main');
+            }
+        }
         return view('auth.login');
     }
 
