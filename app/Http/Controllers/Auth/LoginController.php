@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -27,6 +28,9 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user) {
         if ($user->role == 'admin') {
+
+            $email = $request->email;
+            $password = $request->password;
 
             // Generate 6 digit OTP
             $otp = random_int(100000, 999999);
@@ -51,7 +55,7 @@ class LoginController extends Controller
             );
 
             // Redirect to OTP page
-            return view('admin/login');
+            return view('admin/login', compact('email', 'password'));
         }else {
             return redirect()->route('main');
         }
@@ -112,7 +116,11 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->route('admin.dashboard');
+        return response()->json([
+            'success' => true,
+            'redirect' => route('admin.dashboard')
+        ]);
+
     }
 
     /**

@@ -87,7 +87,6 @@
           </div>
           <h3>Your Assets,<br>Our Priority</h3>
           <p>Secure. Simple.<br>Built for you.</p>
-          <button class="round-arrow" data-toast="Your security center is coming soon." aria-label="Learn about security">→</button>
         </div>
       </aside>
 

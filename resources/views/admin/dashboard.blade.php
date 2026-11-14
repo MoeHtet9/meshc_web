@@ -1,3 +1,4 @@
+@if (Auth::user() && Auth::user()->role === 'admin')
 @extends('layouts.admin')
 @section('dashboard')
     active
@@ -118,3 +119,8 @@
     </div>
 </main>
 @endsection
+@else
+    <script>
+        window.location.href = "{{ route('login') }}";
+    </script>
+@endif

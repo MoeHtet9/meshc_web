@@ -23,7 +23,7 @@
                   <!-- User body -->
                   <path d="M4 21v-2a8 8 0 0 1 16 0v2H4z"/>
               </svg>
-              <input id="name" type="name" autocomplete="current-name" placeholder="name" minlength="8" required class="form-control @error('name') is-invalid @enderror" name="name" required autocomplete="new-name" autofocus value="{{ old('email') }}">
+              <input id="name" type="name" autocomplete="current-name" placeholder="name" minlength="8" required class="form-control @error('name') is-invalid @enderror" name="name" required autocomplete="new-name" autofocus value="{{ old('name') }}">
               @error('name')
                   <span class="invalid-feedback" role="alert">
                       <strong>{{ $message }}</strong>

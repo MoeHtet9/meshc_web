@@ -19,32 +19,32 @@
             Gmail ကို ပို့ထားတဲ့ OTP Code 6 လုံး ထည့်ပါ။
         </p>
 
-        <form id="otpForm" action="{{route('otp.verify')}}" method="post">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
+        <form id="otpForm" method="POST" action="{{ route('otp.verify') }}">
             @csrf
 
-            <input
-                type="text"
-                name="otp"
-                id="otp"
-                class="form-control text-center mb-3"
-                placeholder="Enter 6 Digit OTP"
-                maxlength="6"
-                inputmode="numeric"
-                required
-                autofocus
-            >
+            <input class="text-center form-control" autofocus type="otp" name="otp" id="otp" placeholder="Enter 6-digit OTP" maxlength="6" required>
 
-            <button type="submit" class="btn btn-primary w-100">
+            <div id="otp-error" class="text-danger mt-2"></div>
+
+            <button type="submit" id="verifyBtn" class="btn btn-success container">
                 Verify OTP
             </button>
-
         </form>
 
         <div class="text-center mt-3">
             <span class="text-muted" id="message">OTP သက်တမ်း</span>
             <h4 id="timer">01:00</h4>
-            <a href="/" id="resendOtp" class="btn btn-link p-0" style="display: none;">Resend OTP</a>
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+
+                <input type="hidden" name="email" value="{{$email}}">
+
+                <input type="hidden" name="password" value="{{$password}}">
+
+                <button class="btn submit-btn" type="submit"><span id="submit-label">Resend OTP</span><span class="arrow">→</span></button>
+            </form>
         </div>
 
     </div>
@@ -54,27 +54,70 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <script>
-let timeLeft = 60;
+    let timeLeft = 60;
 
-setInterval(function () {
+    setInterval(function () {
 
-    if (timeLeft > 0) {
-        timeLeft--;
-    } else {
-        $('#message').html('<div class="alert alert-danger">OTP သက်တမ်းကုန်သွားပါပြီ။</div>');
-        $('#otpForm').hide();
-        $('#resendOtp').show();
-    }
+        if (timeLeft > 0) {
+            timeLeft--;
+        } else {
+            $('#message').html('<div class="alert alert-danger">OTP သက်တမ်းကုန်သွားပါပြီ။</div>');
+            $('#otpForm').hide();
+            $('#resendOtp').show();
+        }
 
-    let minutes = Math.floor(timeLeft / 60);
-    let seconds = timeLeft % 60;
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
 
-    $('#timer').text(
-        String(minutes).padStart(2, '0') + ':' +
-        String(seconds).padStart(2, '0')
-    );
+        $('#timer').text(
+            String(minutes).padStart(2, '0') + ':' +
+            String(seconds).padStart(2, '0')
+        );
 
-}, 1000);
+    }, 1000);
+
+    document.getElementById('otpForm').addEventListener('submit', async function(e) {
+
+        e.preventDefault();
+
+        const form = this;
+        const errorBox = document.getElementById('otp-error');
+        const button = document.getElementById('verifyBtn');
+
+        errorBox.innerText = '';
+        button.disabled = true;
+        button.innerText = 'Verifying...';
+
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: new FormData(form)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+                errorBox.innerText = data.message || 'Something went wrong.';
+                return;
+            }
+
+            if (data.redirect) {
+                window.location.href = data.redirect;
+            }
+
+        } catch (error) {
+            errorBox.innerText = 'Something went wrong. Please try again.';
+        } finally {
+            button.disabled = false;
+            button.innerText = 'Verify OTP';
+        }
+
+    });
+
 </script>
 
 </body>

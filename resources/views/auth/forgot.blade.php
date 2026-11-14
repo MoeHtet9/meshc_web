@@ -55,7 +55,7 @@
                 {{ $email_comp ?? 'OTP sent successfully. Please check your email.' }}
             </p>
 
-            <p class="text-muted">
+            <p class="text-secondary">
                 Email: {{ session('otp_email') }}
             </p>
 
