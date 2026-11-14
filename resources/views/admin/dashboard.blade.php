@@ -105,7 +105,7 @@
                       </div>
                     </td>
                     <td>{{$user->email}}</td>
-                    <td class="text-success" style="font-size: 1rem;">{{ $user->amount->amout ? $user->amount->amout : 0 }} USDT</td>
+                    <td class="text-success" style="font-size: 1rem;"> {{ $user->amount?->amout ?? 0 }} USDT </td>
                     <td>{{$user->created_at}}</td>
                   </tr>
                 @endforeach
